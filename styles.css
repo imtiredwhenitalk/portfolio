@@ -218,9 +218,18 @@ a:hover {
   height: 34px;
   padding: 0 10px;
   border-radius: 10px;
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.20);
   color: var(--text);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Fix: native option/optgroup colors were near-white on dark page (as in your screenshot). */
+.select option,
+.select optgroup {
+  background-color: #0d1020;
+  color: #e6edf3;
 }
 
 .status {
@@ -411,7 +420,7 @@ a:hover {
   padding: 12px;
   border-radius: 12px;
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  border:  1px solid rgba(255, 255, 255, 0.10);
   overflow: auto;
   white-space: pre-wrap;
   color: #c9d4e5;
