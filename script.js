@@ -30,7 +30,8 @@ function logDebug(obj) {
 function formatDate(iso) {
   try {
     const dt = new Date(iso);
-    return new Intl.DateTimeFormat("uk-UA", {
+    // Choose locale: en-GB (21 Dec 2025) or en-US (Dec 21, 2025).
+    return new Intl.DateTimeFormat("en-GB", {
       year: "numeric",
       month: "short",
       day: "2-digit",
@@ -51,7 +52,7 @@ function escapeHtml(str) {
 
 function repoCard(repo) {
   const name = escapeHtml(repo.name);
-  const desc = escapeHtml(repo.description ?? "Без опису");
+  const desc = escapeHtml(repo.description ?? "No description");
   const lang = escapeHtml(repo.language ?? "—");
   const stars = repo.stargazers_count ?? 0;
   const updated = formatDate(repo.pushed_at ?? repo.updated_at);
@@ -61,15 +62,15 @@ function repoCard(repo) {
     <article class="project">
       <div class="projectTop">
         <a class="projectName" href="${url}" target="_blank" rel="noreferrer">${name}</a>
-        <div class="badges" aria-label="Метадані">
-          <span class="badge" title="Мова">${lang}</span>
-          <span class="badge" title="Зірки">★ ${stars}</span>
+        <div class="badges" aria-label="Metadata">
+          <span class="badge" title="Language">${lang}</span>
+          <span class="badge" title="Stars">★ ${stars}</span>
         </div>
       </div>
       <p class="projectDesc">${desc}</p>
       <div class="projectMeta">
-        <span class="small">Оновлено: ${updated}</span>
-        ${repo.homepage ? `<a class="small" href="${repo.homepage}" target="_blank" rel="noreferrer">Демо</a>` : ""}
+        <span class="small">Updated: ${updated}</span>
+        ${repo.homepage ? `<a class="small" href="${repo.homepage}" target="_blank" rel="noreferrer">Demo</a>` : ""}
       </div>
     </article>
   `;
@@ -78,11 +79,13 @@ function repoCard(repo) {
 function sortRepos(repos, mode) {
   const copy = [...repos];
   if (mode === "name") {
-    copy.sort((a, b) => (a.name || "").localeCompare(b.name || "", "uk"));
+    copy.sort((a, b) => (a.name || "").localeCompare(b.name || "", "en"));
     return copy;
   }
   if (mode === "stars") {
-    copy.sort((a, b) => (b.stargazers_count ?? 0) - (a.stargazers_count ?? 0));
+    copy.sort(
+      (a, b) => (b.stargazers_count ?? 0) - (a.stargazers_count ?? 0)
+    );
     return copy;
   }
   copy.sort((a, b) => {
@@ -98,12 +101,12 @@ function renderRepos(repos) {
 
   if (!sorted.length) {
     elements.grid.innerHTML = "";
-    setStatus("Немає репозиторіїв для показу.", { isError: true });
+    setStatus("No repositories to show.", { isError: true });
     return;
   }
 
   elements.grid.innerHTML = sorted.map(repoCard).join("");
-  setStatus(`Показано: ${sorted.length} репозиторіїв.`);
+  setStatus(`Shown: ${sorted.length} repositories.`);
 
   // Trigger subtle reveal animations (respects prefers-reduced-motion via CSS).
   const cards = elements.grid.querySelectorAll(".project");
@@ -130,7 +133,10 @@ async function fetchJson(url) {
   }
 
   if (!res.ok) {
-    const msg = typeof data === "object" && data && data.message ? data.message : `HTTP ${res.status}`;
+    const msg =
+      typeof data === "object" && data && data.message
+        ? data.message
+        : `HTTP ${res.status}`;
     throw new Error(msg);
   }
 
@@ -138,14 +144,16 @@ async function fetchJson(url) {
 }
 
 function takeTopRepos(repos) {
-  // “Мої роботи”: прибираємо форки, архівні, і беремо найцікавіші.
+  // “My work”: remove forks, archived repos, and empty ones.
   const filtered = repos
     .filter((r) => !r.fork)
     .filter((r) => !r.archived)
     .filter((r) => (r.size ?? 0) > 0);
 
-  // Візьмемо топ 8 по зірках, а потім стабілізуємо по оновленню.
-  const byStars = [...filtered].sort((a, b) => (b.stargazers_count ?? 0) - (a.stargazers_count ?? 0));
+  // Take top 8 by stars; if none, just take first 8.
+  const byStars = [...filtered].sort(
+    (a, b) => (b.stargazers_count ?? 0) - (a.stargazers_count ?? 0)
+  );
   const top = byStars.slice(0, 8);
   return top.length ? top : filtered.slice(0, 8);
 }
@@ -156,20 +164,21 @@ async function init() {
   elements.githubUser.href = `https://github.com/${GITHUB_USER}`;
   elements.githubUser.textContent = GITHUB_USER;
 
-  setStatus("Завантажую репозиторії…");
+  setStatus("Loading repositories…");
 
   try {
     const [profile, repos] = await Promise.all([
       fetchJson(`https://api.github.com/users/${GITHUB_USER}`),
-      fetchJson(`https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&sort=updated`),
+      fetchJson(
+        `https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&sort=updated`
+      ),
     ]);
 
     if (profile?.name) {
-      elements.title.textContent = `Портфоліо — ${profile.name}`;
+      elements.title.textContent = `Portfolio — ${profile.name}`;
     } else {
-      elements.title.textContent = `Портфоліо — ${GITHUB_USER}`;
+      elements.title.textContent = `Portfolio — ${GITHUB_USER}`;
     }
-
 
     if (profile?.bio) {
       elements.subtitle.textContent = profile.bio;
@@ -192,23 +201,22 @@ async function init() {
 
     elements.sort.addEventListener("change", () => renderRepos(chosen));
   } catch (err) {
-    const message = err instanceof Error ? err.message : "Невідома помилка";
+    const message = err instanceof Error ? err.message : "Unknown error";
     setStatus(
-      `Не вдалося завантажити дані з GitHub (можливо, немає інтернету або ліміт запитів). Помилка: ${message}`,
+      `Failed to load data from GitHub (maybe no internet connection or API rate limit). Error: ${message}`,
       { isError: true }
     );
 
     logDebug({
       error: message,
-      note:
-        "Спробуй відкрити сторінку пізніше або просто оновити. GitHub API має ліміт для неавторизованих запитів.",
+      note: "Try opening the page later or just refresh. The GitHub API has a rate limit for unauthenticated requests.",
     });
 
-    // Мінімальний fallback (щоб сторінка не виглядала пустою офлайн)
+    // Minimal offline fallback (so the page doesn't look empty)
     elements.grid.innerHTML = [
       {
-        name: "Проєкти з GitHub",
-        description: "Увімкни інтернет, і тут з’явиться список репозиторіїв.",
+        name: "Projects from GitHub",
+        description: "Turn on the internet and your repositories will appear here.",
         language: "—",
         stargazers_count: 0,
         pushed_at: new Date().toISOString(),
