@@ -1,26 +1,36 @@
-# Portfolio
+# Portfolio (static)
 
-This repository contains my personal portfolio website.
+A minimal portfolio that fetches your repositories from the GitHub user **imtiredwhenitalk** via the GitHub API.
 
-## About
+## How to run
 
-This site presents my projects, skills, and ways to contact me.
+- Open `index.html` in your browser.
+- Or in VS Code: install **Live Server** and click **Go Live**.
 
-## Development
+## How the projects list works
 
-- Install dependencies:
-  ```bash
-  npm install
-  ```
-- Start the development server:
-  ```bash
-  npm run dev
-  ```
-- Build for production:
-  ```bash
-  npm run build
-  ```
+- Data is fetched from:
+  - `https://api.github.com/users/imtiredwhenitalk`
+  - `https://api.github.com/users/imtiredwhenitalk/repos?per_page=100&sort=updated`
+- The page shows up to 8 repositories that are:
+  - not forks
+  - not archived
+  - not empty (size > 0)
 
-## License
+## If projects don't load
 
-See the license information in this repository (if provided).
+The GitHub API has a rate limit for unauthenticated requests. Just refresh the page or try again later.
+
+## GitHub Pages (publish as a website)
+
+This repository is already ready for GitHub Pages (it is a static site).
+
+1) Push the repository to GitHub.
+2) In the repository, open: **Settings → Pages**
+3) In **Build and deployment**, choose:
+   - **Source**: Deploy from a branch
+   - **Branch**: `main`
+   - **Folder**: `/(root)`
+4) Save — in a minute you will get the website link.
+
+Tip: if you want an address like `https://imtiredwhenitalk.github.io/`, create a repository named `imtiredwhenitalk.github.io`.
