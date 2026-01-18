@@ -154,14 +154,19 @@ a:hover {
 .card {
   margin-top: 18px;
   padding: 18px;
-  background: transparent;
   border: 1px solid var(--border);
   border-radius: var(--radius);
+  background: rgba(7, 7, 11, 0.18);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .card h2 {
   margin: 0 0 12px;
   font-size: 18px;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .muted {
@@ -218,18 +223,9 @@ a:hover {
   height: 34px;
   padding: 0 10px;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.20);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.14);
   color: var(--text);
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-/* Fix: native option/optgroup colors were near-white on dark page (as in your screenshot). */
-.select option,
-.select optgroup {
-  background-color: #0d1020;
-  color: #e6edf3;
 }
 
 .status {
@@ -256,7 +252,7 @@ a:hover {
 .project {
   padding: 14px;
   border-radius: 12px;
-  background: transparent;
+  background: rgba(7, 7, 11, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.10);
   display: flex;
   flex-direction: column;
@@ -265,6 +261,8 @@ a:hover {
     transform 180ms ease,
     border-color 180ms ease,
     box-shadow 180ms ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .project:hover {
@@ -273,7 +271,6 @@ a:hover {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
 
-/* Animations */
 @media (prefers-reduced-motion: no-preference) {
   .header {
     animation: slideDown 520ms ease both;
@@ -420,7 +417,7 @@ a:hover {
   padding: 12px;
   border-radius: 12px;
   background: transparent;
-  border:  1px solid rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.10);
   overflow: auto;
   white-space: pre-wrap;
   color: #c9d4e5;
