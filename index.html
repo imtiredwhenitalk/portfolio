@@ -1,9 +1,132 @@
-<nav>
-    <ul>
-        <li><a href="#gists">Gists</a></li>
-    </ul>
-</nav>
-<section id="gists">
-    <h2>My Gists</h2>
-    <div id="gists-container"></div>
-</section>
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Портфоліо: проєкти з GitHub imtiredwhenitalk. Студент ЛНТУ, кібербезпека." />
+    <title>Портфоліо — imtiredwhenitalk</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="container header">
+      <div class="brand">
+        <img
+          class="avatar"
+          id="avatar"
+          src="./assets/lntu.png"
+          alt="Логотип ЛНТУ"
+          onerror="this.onerror=null; this.src='./assets/lntu-logo.svg';"
+        />
+        <div>
+          <h1 class="title" id="title">Портфоліо</h1>
+          <p class="subtitle" id="subtitle">
+            Тут зібрані мої роботи з GitHub.
+          </p>
+        </div>
+      </div>
+
+      <nav class="actions" aria-label="Посилання">
+        <a class="btn" id="githubLink" href="https://github.com/imtiredwhenitalk" target="_blank" rel="noreferrer">GitHub</a>
+        <a class="btn btnSecondary" href="#gists">Gists</a>
+        <a class="btn btnSecondary" href="https://t.me/ifeelsdepressed" target="_blank" rel="noreferrer">Telegram</a>
+        <a class="btn btnSecondary" href="#projects">Проєкти</a>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section class="card" aria-labelledby="aboutHeading">
+        <h2 id="aboutHeading">Про мене</h2>
+        <div class="aboutGrid">
+          <div>
+            <p>
+              Я — студент <strong>ЛНТУ</strong>, спеціальність <strong>кібербезпека</strong>. Портфоліо будується на основі
+              мого GitHub профілю <a href="https://github.com/imtiredwhenitalk" target="_blank" rel="noreferrer">imtiredwhenitalk</a>.
+            </p>
+            <p class="muted">
+              Зараз фокусуюсь на базі для практичної кібербезпеки: <strong>мережі</strong> (TCP/IP, DNS, HTTP, маршрутизація),
+              <strong>Linux-системи</strong> (права доступу, процеси, логування), та інструменти з <strong>Kali Linux</strong>
+              для навчальних лабораторних і CTF.
+            </p>
+            <p class="muted">
+              Вчуся акуратно мислити як аналітик: збирати факти, читати логи, відтворювати проблеми та оформлювати короткі звіти.
+              У репозиторіях нижче — мої навчальні роботи та експерименти.
+            </p>
+          </div>
+
+          <dl class="meta">
+            <div>
+              <dt>GitHub</dt>
+              <dd><a id="githubUser" href="https://github.com/imtiredwhenitalk" target="_blank" rel="noreferrer">imtiredwhenitalk</a></dd>
+            </div>
+            <div>
+              <dt>Telegram</dt>
+              <dd><a href="https://t.me/ifeelsdepressed" target="_blank" rel="noreferrer">ifeelsdepressed.t.me</a></dd>
+            </div>
+            <div>
+              <dt>Освіта</dt>
+              <dd>ЛНТУ — кібербезпека</dd>
+            </div>
+            <div>
+              <dt>Мови</dt>
+              <dd>
+                <span class="badges badgesInline" aria-label="Мови програмування">
+                  <span class="badge">C++</span>
+                  <span class="badge">Python</span>
+                  <span class="badge">JS</span>
+                  <span class="badge">C</span>
+                </span>
+              </dd>
+            </div>
+            <div>
+              <dt>Фокус</dt>
+              <dd>Навчальні та пет-проєкти</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="card" id="projects" aria-labelledby="projectsHeading">
+        <div class="sectionHeader">
+          <h2 id="projectsHeading">Проєкти з GitHub</h2>
+          <div class="controls">
+            <label class="label" for="sortSelect">Сортування</label>
+            <select id="sortSelect" class="select">
+              <option value="stars">За зірками</option>
+              <option value="updated" selected>За оновленням</option>
+              <option value="name">За назвою</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="status" id="status" role="status" aria-live="polite">
+          Завантажую репозиторії…
+        </div>
+
+        <div class="grid" id="projectsGrid" aria-label="Список проєктів"></div>
+
+        <details class="details" id="debugDetails">
+          <summary>Деталі завантаження</summary>
+          <pre class="code" id="debugLog"></pre>
+        </details>
+      </section>
+
+      <section class="card" id="gists" aria-labelledby="gistsHeading">
+        <div class="sectionHeader">
+          <h2 id="gistsHeading">Gists з GitHub</h2>
+        </div>
+
+        <div class="status" id="gistsStatus" role="status" aria-live="polite">
+          Завантажую gists…
+        </div>
+
+        <div class="grid" id="gistsGrid" aria-label="Список gists"></div>
+      </section>
+
+      <footer class="footer">
+        <span class="muted">© <span id="year"></span> — imtiredwhenitalk</span>
+      </footer>
+    </main>
+
+    <script src="./script.js" defer></script>
+  </body>
+</html>
