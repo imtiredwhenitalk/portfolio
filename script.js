@@ -33,7 +33,7 @@ function logDebug(obj) {
 function formatDate(iso) {
   try {
     const dt = new Date(iso);
-    return new Intl.DateTimeFormat("uk-UA", {
+    return new Intl.DateTimeFormat("en-US", {
       year: "numeric",
       month: "short",
       day: "2-digit",
@@ -54,7 +54,7 @@ function escapeHtml(str) {
 
 function repoCard(repo) {
   const name = escapeHtml(repo.name);
-  const desc = escapeHtml(repo.description ?? "Без опису");
+  const desc = escapeHtml(repo.description ?? "No description");
   const lang = escapeHtml(repo.language ?? "—");
   const stars = repo.stargazers_count ?? 0;
   const updated = formatDate(repo.pushed_at ?? repo.updated_at);
@@ -66,17 +66,17 @@ function repoCard(repo) {
     <article class="project">
       <div class="projectTop">
         <a class="projectName" href="${url}" target="_blank" rel="noreferrer">${name}</a>
-        <div class="badges" aria-label="Метадані">
-          <span class="badge" title="Мова">${lang}</span>
-          <span class="badge" title="Зірки">★ ${stars}</span>
+        <div class="badges" aria-label="Metadata">
+          <span class="badge" title="Language">${lang}</span>
+          <span class="badge" title="Stars">★ ${stars}</span>
           ${forkBadge}
           ${archivedBadge}
         </div>
       </div>
       <p class="projectDesc">${desc}</p>
       <div class="projectMeta">
-        <span class="small">Оновлено: ${updated}</span>
-        ${repo.homepage ? `<a class="small" href="${repo.homepage}" target="_blank" rel="noreferrer">Демо</a>` : ""}
+        <span class="small">Updated: ${updated}</span>
+        ${repo.homepage ? `<a class="small" href="${repo.homepage}" target="_blank" rel="noreferrer">Demo</a>` : ""}
       </div>
     </article>
   `;
@@ -99,14 +99,14 @@ function gistCard(gist) {
     <article class="project">
       <div class="projectTop">
         <a class="projectName" href="${url}" target="_blank" rel="noreferrer">${title}</a>
-        <div class="badges" aria-label="Метадані">
-          <span class="badge" title="Видимість">${visibility}</span>
-          <span class="badge" title="Файлів">${filesCount} file(s)</span>
+        <div class="badges" aria-label="Metadata">
+          <span class="badge" title="Visibility">${visibility}</span>
+          <span class="badge" title="Files">${filesCount} file(s)</span>
         </div>
       </div>
-      <p class="projectDesc">${escapeHtml(gist.description ?? "Без опису")}</p>
+      <p class="projectDesc">${escapeHtml(gist.description ?? "No description")}</p>
       <div class="projectMeta">
-        <span class="small">Оновлено: ${updated}</span>
+        <span class="small">Updated: ${updated}</span>
       </div>
     </article>
   `;
@@ -115,7 +115,7 @@ function gistCard(gist) {
 function sortRepos(repos, mode) {
   const copy = [...repos];
   if (mode === "name") {
-    copy.sort((a, b) => (a.name || "").localeCompare(b.name || "", "uk"));
+    copy.sort((a, b) => (a.name || "").localeCompare(b.name || "", "en"));
     return copy;
   }
   if (mode === "stars") {
@@ -135,12 +135,12 @@ function renderRepos(repos) {
 
   if (!sorted.length) {
     elements.grid.innerHTML = "";
-    setStatus(elements.status, "Немає репозиторіїв для показу.", { isError: true });
+    setStatus(elements.status, "No repositories to show.", { isError: true });
     return;
   }
 
   elements.grid.innerHTML = sorted.map(repoCard).join("");
-  setStatus(elements.status, `Показано: ${sorted.length} репозиторіїв.`);
+  setStatus(elements.status, `Showing: ${sorted.length} repositories.`);
 
   const cards = elements.grid.querySelectorAll(".project");
   cards.forEach((el, i) => {
@@ -223,12 +223,12 @@ function renderGists(gists) {
 
   if (!sorted.length) {
     elements.gistsGrid.innerHTML = "";
-    setStatus(elements.gistsStatus, "Немає gists для показу.", { isError: false });
+    setStatus(elements.gistsStatus, "No gists to show.", { isError: false });
     return;
   }
 
   elements.gistsGrid.innerHTML = sorted.map(gistCard).join("");
-  setStatus(elements.gistsStatus, `Показано: ${sorted.length} gists.`);
+  setStatus(elements.gistsStatus, `Showing: ${sorted.length} gists.`);
 
   const cards = elements.gistsGrid.querySelectorAll(".project");
   cards.forEach((el, i) => {
@@ -245,8 +245,8 @@ async function init() {
     elements.githubUser.textContent = GITHUB_USER;
   }
 
-  setStatus(elements.status, "Завантажую репозиторії…");
-  setStatus(elements.gistsStatus, "Завантажую gists…");
+  setStatus(elements.status, "Loading repositories…");
+  setStatus(elements.gistsStatus, "Loading gists…");
 
   try {
     const reposUrl = withPerPage(`https://api.github.com/users/${GITHUB_USER}/repos?sort=updated`, 100);
@@ -261,9 +261,9 @@ async function init() {
     const profile = profileResp?.data;
 
     if (profile?.name && elements.title) {
-      elements.title.textContent = `Портфоліо — ${profile.name}`;
+      elements.title.textContent = `Portfolio — ${profile.name}`;
     } else if (elements.title) {
-      elements.title.textContent = `Портфоліо — ${GITHUB_USER}`;
+      elements.title.textContent = `Portfolio — ${GITHUB_USER}`;
     }
 
 
@@ -273,7 +273,7 @@ async function init() {
 
     if (profile?.avatar_url && elements.avatar) {
       elements.avatar.src = profile.avatar_url;
-      elements.avatar.alt = `Аватар ${GITHUB_USER}`;
+      elements.avatar.alt = `${GITHUB_USER} avatar`;
     }
 
     const reposList = Array.isArray(repos) ? repos : [];
@@ -297,29 +297,29 @@ async function init() {
       elements.sort.addEventListener("change", () => renderRepos(reposList));
     }
   } catch (err) {
-    const message = err instanceof Error ? err.message : "Невідома помилка";
+    const message = err instanceof Error ? err.message : "Unknown error";
     setStatus(
       elements.status,
-      `Не вдалося завантажити дані з GitHub (можливо, немає інтернету або ліміт запитів). Помилка: ${message}`,
+      `Failed to load data from GitHub (no internet or API rate limit). Error: ${message}`,
       { isError: true }
     );
 
     setStatus(
       elements.gistsStatus,
-      `Не вдалося завантажити gists з GitHub. Помилка: ${message}`,
+      `Failed to load gists from GitHub. Error: ${message}`,
       { isError: true }
     );
 
     logDebug({
       error: message,
       note:
-        "Спробуй відкрити сторінку пізніше або просто оновити. GitHub API має ліміт для неавторизованих запитів.",
+        "Try again later or refresh. GitHub API has a rate limit for unauthenticated requests.",
     });
 
     if (elements.grid) elements.grid.innerHTML = [
       {
-        name: "Проєкти з GitHub",
-        description: "Увімкни інтернет, і тут з’явиться список репозиторіїв.",
+        name: "GitHub Projects",
+        description: "Enable internet access and the repository list will appear here.",
         language: "—",
         stargazers_count: 0,
         pushed_at: new Date().toISOString(),
@@ -332,7 +332,7 @@ async function init() {
     if (elements.gistsGrid) {
       elements.gistsGrid.innerHTML = [
         {
-          description: "Gists з GitHub",
+          description: "GitHub Gists",
           public: true,
           files: { "README.md": {} },
           created_at: new Date().toISOString(),
