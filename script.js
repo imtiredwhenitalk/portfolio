@@ -271,9 +271,9 @@ async function init() {
       elements.subtitle.textContent = profile.bio;
     }
 
-    if (profile?.avatar_url && elements.avatar) {
-      elements.avatar.src = profile.avatar_url;
-      elements.avatar.alt = `${GITHUB_USER} avatar`;
+    if (elements.avatar) {
+      // Keep the local logo avatar (assets/lntu.png) instead of using GitHub's avatar.
+      elements.avatar.alt = "LNTU logo";
     }
 
     const reposList = Array.isArray(repos) ? repos : [];
