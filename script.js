@@ -16,6 +16,47 @@ const elements = {
   gistsGrid: document.getElementById("gistsGrid"),
 };
 
+const CACHE_PREFIX = "ghcache:v1:";
+const DEFAULT_CACHE_TTL_MS = 15 * 60 * 1000;
+const RATE_LIMIT_UNTIL_KEY = `${CACHE_PREFIX}rateLimitUntil`;
+
+const FALLBACK_REPOS = [
+  {
+    name: "GitHub profile",
+    description: "GitHub API is temporarily rate-limited. Open my profile to see all repositories.",
+    language: "—",
+    stargazers_count: 0,
+    pushed_at: new Date().toISOString(),
+    html_url: `https://github.com/${GITHUB_USER}`,
+  },
+];
+
+class GitHubRateLimitError extends Error {
+  constructor(message, resetAtMs) {
+    super(message);
+    this.name = "GitHubRateLimitError";
+    this.resetAtMs = resetAtMs;
+  }
+}
+
+function readRateLimitUntil() {
+  try {
+    const raw = localStorage.getItem(RATE_LIMIT_UNTIL_KEY);
+    const until = raw ? Number(raw) : 0;
+    return Number.isFinite(until) ? until : 0;
+  } catch {
+    return 0;
+  }
+}
+
+function writeRateLimitUntil(untilMs) {
+  try {
+    localStorage.setItem(RATE_LIMIT_UNTIL_KEY, String(untilMs));
+  } catch {
+    // ignore
+  }
+}
+
 function setStatus(targetEl, message, { isError = false } = {}) {
   if (!targetEl) return;
   targetEl.textContent = message;
@@ -164,11 +205,65 @@ function parseNextLink(linkHeader) {
 }
 
 async function fetchJsonResponse(url) {
-  const res = await fetch(url, {
-    headers: {
-      Accept: "application/vnd.github+json",
-    },
-  });
+  const keyBase = `${CACHE_PREFIX}${url}`;
+  const dataKey = `${keyBase}:data`;
+  const etagKey = `${keyBase}:etag`;
+  const tsKey = `${keyBase}:ts`;
+
+  const readCache = () => {
+    try {
+      const raw = localStorage.getItem(dataKey);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      const ts = Number(localStorage.getItem(tsKey) || "0");
+      const etag = localStorage.getItem(etagKey) || null;
+      return { data: parsed, ts, etag };
+    } catch {
+      return null;
+    }
+  };
+
+  const writeCache = (data, etag) => {
+    try {
+      localStorage.setItem(dataKey, JSON.stringify(data));
+      localStorage.setItem(tsKey, String(Date.now()));
+      if (etag) localStorage.setItem(etagKey, etag);
+    } catch {
+      // Ignore storage quota / private mode errors.
+    }
+  };
+
+  const cached = readCache();
+  if (cached?.data && cached.ts && Date.now() - cached.ts < DEFAULT_CACHE_TTL_MS) {
+    return { data: cached.data, res: { ok: true, status: 200, headers: new Headers() } };
+  }
+
+  const headers = {
+    Accept: "application/vnd.github+json",
+  };
+
+  if (cached?.etag) {
+    headers["If-None-Match"] = cached.etag;
+  }
+
+  let res;
+  try {
+    res = await fetch(url, { headers });
+  } catch (err) {
+    if (cached?.data) {
+      return { data: cached.data, res: { ok: true, status: 200, headers: new Headers() } };
+    }
+    throw err;
+  }
+
+  if (res.status === 304 && cached?.data) {
+    try {
+      localStorage.setItem(tsKey, String(Date.now()));
+    } catch {
+      // ignore
+    }
+    return { data: cached.data, res };
+  }
 
   const text = await res.text();
   let data;
@@ -179,6 +274,22 @@ async function fetchJsonResponse(url) {
   }
 
   if (!res.ok) {
+    const remaining = Number(res.headers.get("X-RateLimit-Remaining") ?? "");
+    const resetSeconds = Number(res.headers.get("X-RateLimit-Reset") ?? "");
+    const resetAtMs = Number.isFinite(resetSeconds) ? resetSeconds * 1000 : 0;
+
+    if (res.status === 403 && remaining === 0) {
+      if (resetAtMs) writeRateLimitUntil(resetAtMs);
+      if (cached?.data) {
+        return { data: cached.data, res };
+      }
+      throw new GitHubRateLimitError("GitHub API rate limit exceeded.", resetAtMs);
+    }
+
+    if (cached?.data) {
+      return { data: cached.data, res };
+    }
+
     const msg =
       typeof data === "object" && data && data.message
         ? data.message
@@ -186,6 +297,7 @@ async function fetchJsonResponse(url) {
     throw new Error(msg);
   }
 
+  writeCache(data, res.headers.get("ETag"));
   return { data, res };
 }
 
@@ -249,13 +361,14 @@ async function init() {
   setStatus(elements.gistsStatus, "Loading gists…");
 
   try {
+    // Keep requests minimal (rate limits are strict for unauthenticated clients).
     const reposUrl = withPerPage(`https://api.github.com/users/${GITHUB_USER}/repos?sort=updated`, 100);
     const gistsUrl = withPerPage(`https://api.github.com/users/${GITHUB_USER}/gists`, 100);
 
     const [profileResp, repos, gists] = await Promise.all([
       fetchJsonResponse(`https://api.github.com/users/${GITHUB_USER}`),
-      fetchAllPages(reposUrl, { maxPages: 10 }),
-      fetchAllPages(gistsUrl, { maxPages: 10 }),
+      fetchAllPages(reposUrl, { maxPages: 1 }),
+      fetchAllPages(gistsUrl, { maxPages: 1 }),
     ]);
 
     const profile = profileResp?.data;
@@ -271,10 +384,7 @@ async function init() {
       elements.subtitle.textContent = profile.bio;
     }
 
-    if (profile?.avatar_url && elements.avatar) {
-      elements.avatar.src = profile.avatar_url;
-      elements.avatar.alt = `Avatar ${GITHUB_USER}`;
-    }
+    // Keep the portfolio avatar as LNTU logo (do not overwrite with GitHub avatar).
 
     const reposList = Array.isArray(repos) ? repos : [];
     const gistsList = Array.isArray(gists) ? gists : [];
@@ -298,9 +408,22 @@ async function init() {
     }
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
+    const isRateLimit = err instanceof GitHubRateLimitError || /rate limit/i.test(message);
+
+    if (isRateLimit) {
+      renderRepos(FALLBACK_REPOS);
+      renderGists([]);
+      setStatus(
+        elements.status,
+        "GitHub API is rate-limited right now. Showing a fallback link to the profile."
+      );
+      setStatus(elements.gistsStatus, "");
+      return;
+    }
+
     setStatus(
       elements.status,
-      `Failed to load data from GitHub (no internet or API rate limit). Error: ${message}`,
+      `Failed to load data from GitHub. Error: ${message}`,
       { isError: true }
     );
 
@@ -316,18 +439,7 @@ async function init() {
         "Try refreshing later. GitHub API has a rate limit for unauthenticated requests.",
     });
 
-    if (elements.grid) elements.grid.innerHTML = [
-      {
-        name: "GitHub projects",
-        description: "Enable internet access and the repository list will appear here.",
-        language: "—",
-        stargazers_count: 0,
-        pushed_at: new Date().toISOString(),
-        html_url: `https://github.com/${GITHUB_USER}`,
-      },
-    ]
-      .map(repoCard)
-      .join("");
+    if (elements.grid) elements.grid.innerHTML = FALLBACK_REPOS.map(repoCard).join("");
 
     if (elements.gistsGrid) {
       elements.gistsGrid.innerHTML = [
