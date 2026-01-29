@@ -1,36 +1,40 @@
 # Portfolio (static)
 
-A minimal portfolio that fetches your repositories from the GitHub user **imtiredwhenitalk** via the GitHub API.
+Minimal static portfolio that loads **all public repositories** and **gists** from the GitHub user **imtiredwhenitalk** via the GitHub API.
+
+Also includes a separate **“Cases (Production)”** section for real deployed projects that may not be represented as public repos.
 
 ## How to run
 
-- Open `index.html` in your browser.
-- Or in VS Code: install **Live Server** and click **Go Live**.
+- Open `web/Portfolio/index.html` in your browser.
+- Or in VS Code: install Live Server and click **Go Live**.
 
-## How the projects list works
+## How projects work
 
-- Data is fetched from:
+Data sources:
   - `https://api.github.com/users/imtiredwhenitalk`
   - `https://api.github.com/users/imtiredwhenitalk/repos?per_page=100&sort=updated`
-- The page shows up to 8 repositories that are:
-  - not forks
-  - not archived
-  - not empty (size > 0)
+The page shows all repositories (with Fork/Archived badges when applicable).
 
-## If projects don't load
+## How gists work
 
-The GitHub API has a rate limit for unauthenticated requests. Just refresh the page or try again later.
+Data source:
+  - `https://api.github.com/users/imtiredwhenitalk/gists?per_page=100`
+
+## If data doesn’t load
+
+GitHub API has a rate limit for unauthenticated requests. Refresh the page or try again later.
 
 ## GitHub Pages (publish as a website)
 
-This repository is already ready for GitHub Pages (it is a static site).
+This workspace already includes a root `docs/` folder (a copy of the site) so GitHub Pages can serve it.
 
-1) Push the repository to GitHub.
-2) In the repository, open: **Settings → Pages**
-3) In **Build and deployment**, choose:
-   - **Source**: Deploy from a branch
-   - **Branch**: `main`
-   - **Folder**: `/(root)`
-4) Save — in a minute you will get the website link.
+1) Push a repository that contains the `docs/` folder (GitHub Desktop or “Upload files”).
+2) In the repository open: **Settings → Pages**
+3) In **Build and deployment** select:
+  - **Source**: Deploy from a branch
+  - **Branch**: `main`
+  - **Folder**: `/docs`
+4) Save — in about a minute you’ll get the website link.
 
-Tip: if you want an address like `https://imtiredwhenitalk.github.io/`, create a repository named `imtiredwhenitalk.github.io`.
+Tip: if you want an address like `https://imtiredwhenitalk.github.io/`, create a repo named `imtiredwhenitalk.github.io`.
