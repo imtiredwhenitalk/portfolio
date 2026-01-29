@@ -3,10 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Portfolio: GitHub projects by imtiredwhenitalk. Full‑Stack DevOps developer learning React, TypeScript, Python, and application security."
-    />
+    <meta name="description" content="Portfolio: projects from GitHub imtiredwhenitalk. Student at LNTU, cybersecurity." />
     <title>Portfolio — imtiredwhenitalk</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
@@ -23,7 +20,7 @@
         <div>
           <h1 class="title" id="title">Portfolio</h1>
           <p class="subtitle" id="subtitle">
-            Selected work from my GitHub.
+            A curated overview of my work.
           </p>
         </div>
       </div>
@@ -32,6 +29,7 @@
         <a class="btn" id="githubLink" href="https://github.com/imtiredwhenitalk" target="_blank" rel="noreferrer">GitHub</a>
         <a class="btn btnSecondary" href="#gists">Gists</a>
         <a class="btn btnSecondary" href="https://t.me/ifeelsdepressed" target="_blank" rel="noreferrer">Telegram</a>
+        <a class="btn btnSecondary" href="#cases">Cases</a>
         <a class="btn btnSecondary" href="#projects">Projects</a>
       </nav>
     </header>
@@ -42,19 +40,17 @@
         <div class="aboutGrid">
           <div>
             <p>
-              I’m a <strong>Full‑Stack DevOps</strong> developer (in progress) building web projects and learning how to ship
-              production‑ready software. This portfolio is generated from my GitHub profile
-              <a href="https://github.com/imtiredwhenitalk" target="_blank" rel="noreferrer">imtiredwhenitalk</a>.
+              I’m a <strong>LNTU</strong> student (major: <strong>Cybersecurity</strong>). This portfolio is built around
+              my GitHub profile <a href="https://github.com/imtiredwhenitalk" target="_blank" rel="noreferrer">imtiredwhenitalk</a>.
             </p>
             <p class="muted">
-              My main stack right now: <strong>React</strong> + <strong>TypeScript</strong> for the frontend and
-              <strong>Python</strong> for automation and backend experiments. I actively explore modern libraries/modules,
-              tooling, and deployment workflows.
+              Right now I’m focused on practical fundamentals: <strong>networking</strong> (TCP/IP, DNS, HTTP, routing),
+              <strong>Linux systems</strong> (permissions, processes, logging), and <strong>Kali Linux</strong> tools
+              for labs and CTF-style learning.
             </p>
             <p class="muted">
-              In parallel, I study <strong>Security</strong> (app + infra basics) so I can build not only a working product,
-              but a <strong>protected</strong> one: threat modeling mindset, safe defaults, dependency awareness, and practical
-              hardening.
+              I try to think like an analyst: gather facts, read logs, reproduce issues, and write short, clear reports.
+              Below are my study projects and experiments.
             </p>
           </div>
 
@@ -69,36 +65,108 @@
             </div>
             <div>
               <dt>Education</dt>
-              <dd>LNTU — Cybersecurity (student)</dd>
+              <dd>LNTU — Cybersecurity</dd>
             </div>
             <div>
-              <dt>Tech</dt>
+              <dt>Languages</dt>
               <dd>
-                <span class="badges badgesInline" aria-label="Primary technologies">
-                  <span class="badge">React</span>
+                <span class="badges badgesInline" aria-label="Programming languages">
                   <span class="badge">TypeScript</span>
                   <span class="badge">Python</span>
-                  <span class="badge">DevOps</span>
-                  <span class="badge">Security</span>
+                  <span class="badge">JavaScript</span>
+                  <span class="badge">C</span>
                 </span>
               </dd>
             </div>
             <div>
               <dt>Focus</dt>
-              <dd>Learning projects • Web apps • Automation • Deployment</dd>
+              <dd>Learning + pet projects</dd>
             </div>
           </dl>
         </div>
       </section>
 
+      <section class="card" id="cases" aria-labelledby="casesHeading">
+        <div class="sectionHeader">
+          <h2 id="casesHeading">Cases (Production)</h2>
+          <a class="btn btnSecondary" href="https://zelena-gryadka.com.ua/" target="_blank" rel="noreferrer">Open website</a>
+        </div>
+
+        <article class="case" aria-label="Zelena Gryadka">
+          <div class="caseTop">
+            <div>
+              <h3 class="caseTitle">Zelena Gryadka — Full‑Stack E‑commerce + DevOps</h3>
+              <p class="caseSubtitle muted">
+                Role: <strong>Junior Full‑Stack Developer + DevOps</strong>. I owned the full cycle: frontend, API, database, containerization, reverse-proxy, and server deployment.
+              </p>
+            </div>
+          </div>
+
+          <div class="caseGrid">
+            <div>
+              <div class="caseBlock">
+                <div class="caseBlockTitle">What I did</div>
+                <ul class="list">
+                  <li><strong>Frontend:</strong> product catalog, product pages, login/registration, API integration, loading/empty/error states, SSR/CSR fixes for production.</li>
+                  <li><strong>Backend:</strong> REST API, JWT auth and roles (user/admin), cart, image upload/delete, PostgreSQL integration.</li>
+                  <li><strong>DevOps:</strong> Docker Compose, Nginx reverse-proxy, HTTPS via Certbot, volumes for DB and media, reliable restarts without data loss.</li>
+                </ul>
+              </div>
+
+              <div class="caseBlock">
+                <div class="caseBlockTitle">Key problems I solved</div>
+                <ul class="list listCompact">
+                  <li><strong>Media in production:</strong> moved images to a shared Docker volume, mounted into backend and Nginx, configured static serving and <code>/media/</code>.</li>
+                  <li><strong>HTTPS but site didn’t open:</strong> fixed Nginx server blocks, separated <code>/api</code> and <code>/media</code>, validated config via logs and config tests.</li>
+                  <li><strong>DB data disappeared after restart:</strong> added a persistent PostgreSQL volume and verified data survives <code>down/up</code>.</li>
+                  <li><strong>Auth worked in curl but not in browser:</strong> fixed CORS in FastAPI and made frontend token/error handling consistent.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div>
+              <div class="caseBlock">
+                <div class="caseBlockTitle">Languages</div>
+                <div class="badges badgesInline" aria-label="Languages used">
+                  <span class="badge">TypeScript / JavaScript</span>
+                  <span class="badge">Python</span>
+                  <span class="badge">SQL</span>
+                  <span class="badge">HTML</span>
+                  <span class="badge">CSS</span>
+                  <span class="badge">Bash</span>
+                  <span class="badge">Nginx config</span>
+                  <span class="badge">YAML</span>
+                </div>
+              </div>
+
+              <div class="caseBlock">
+                <div class="caseBlockTitle">Tech stack</div>
+                <div class="badges badgesInline" aria-label="Technologies">
+                  <span class="badge">Next.js 14</span>
+                  <span class="badge">FastAPI</span>
+                  <span class="badge">PostgreSQL</span>
+                  <span class="badge">SQLAlchemy</span>
+                  <span class="badge">JWT Auth</span>
+                  <span class="badge">Docker</span>
+                  <span class="badge">Docker Compose</span>
+                  <span class="badge">Nginx</span>
+                  <span class="badge">Certbot (Let’s Encrypt)</span>
+                  <span class="badge">Ubuntu 24.04</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
       <section class="card" id="projects" aria-labelledby="projectsHeading">
         <div class="sectionHeader">
-          <h2 id="projectsHeading">GitHub Projects</h2>
+          <h2 id="projectsHeading">GitHub projects</h2>
           <div class="controls">
             <label class="label" for="sortSelect">Sort</label>
             <select id="sortSelect" class="select">
               <option value="stars">By stars</option>
-              <option value="updated" selected>Recently updated</option>
+              <option value="updated" selected>By last update</option>
               <option value="name">By name</option>
             </select>
           </div>
@@ -108,7 +176,7 @@
           Loading repositories…
         </div>
 
-        <div class="grid" id="projectsGrid" aria-label="Projects list"></div>
+        <div class="grid" id="projectsGrid" aria-label="Project list"></div>
 
         <details class="details" id="debugDetails">
           <summary>Loading details</summary>
@@ -118,14 +186,14 @@
 
       <section class="card" id="gists" aria-labelledby="gistsHeading">
         <div class="sectionHeader">
-          <h2 id="gistsHeading">GitHub Gists</h2>
+          <h2 id="gistsHeading">GitHub gists</h2>
         </div>
 
         <div class="status" id="gistsStatus" role="status" aria-live="polite">
           Loading gists…
         </div>
 
-        <div class="grid" id="gistsGrid" aria-label="Gists list"></div>
+        <div class="grid" id="gistsGrid" aria-label="Gist list"></div>
       </section>
 
       <footer class="footer">
