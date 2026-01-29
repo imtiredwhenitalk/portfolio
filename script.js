@@ -33,7 +33,7 @@ function logDebug(obj) {
 function formatDate(iso) {
   try {
     const dt = new Date(iso);
-    return new Intl.DateTimeFormat("en-US", {
+    return new Intl.DateTimeFormat("en-GB", {
       year: "numeric",
       month: "short",
       day: "2-digit",
@@ -271,9 +271,9 @@ async function init() {
       elements.subtitle.textContent = profile.bio;
     }
 
-    if (elements.avatar) {
-      // Keep the local logo avatar (assets/lntu.png) instead of using GitHub's avatar.
-      elements.avatar.alt = "LNTU logo";
+    if (profile?.avatar_url && elements.avatar) {
+      elements.avatar.src = profile.avatar_url;
+      elements.avatar.alt = `Avatar ${GITHUB_USER}`;
     }
 
     const reposList = Array.isArray(repos) ? repos : [];
@@ -306,19 +306,19 @@ async function init() {
 
     setStatus(
       elements.gistsStatus,
-      `Failed to load gists from GitHub. Error: ${message}`,
+      `Failed to load GitHub gists. Error: ${message}`,
       { isError: true }
     );
 
     logDebug({
       error: message,
       note:
-        "Try again later or refresh. GitHub API has a rate limit for unauthenticated requests.",
+        "Try refreshing later. GitHub API has a rate limit for unauthenticated requests.",
     });
 
     if (elements.grid) elements.grid.innerHTML = [
       {
-        name: "GitHub Projects",
+        name: "GitHub projects",
         description: "Enable internet access and the repository list will appear here.",
         language: "—",
         stargazers_count: 0,
@@ -332,7 +332,7 @@ async function init() {
     if (elements.gistsGrid) {
       elements.gistsGrid.innerHTML = [
         {
-          description: "GitHub Gists",
+          description: "GitHub gists",
           public: true,
           files: { "README.md": {} },
           created_at: new Date().toISOString(),
