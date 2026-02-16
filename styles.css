@@ -379,19 +379,29 @@ a:hover {
   gap: 8px;
   flex-wrap: wrap;
   justify-content: flex-end;
+  margin-top: 4px;
 }
 
 .badgesInline {
   justify-content: flex-start;
+  gap: 10px;
 }
 
 .badge {
   font-size: 12px;
-  padding: 3px 8px;
+  padding: 5px 10px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  color: var(--muted);
-  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: var(--text);
+  background: rgba(255, 77, 141, 0.12);
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  transition: all 0.2s ease;
+}
+
+.badge:hover {
+  background: rgba(255, 77, 141, 0.18);
+  border-color: rgba(255, 255, 255, 0.24);
 }
 
 .projectDesc {
@@ -409,7 +419,8 @@ a:hover {
 }
 
 .case {
-  padding: 16px;
+  padding: 20px;
+  margin-bottom: 18px;
   border-radius: 14px;
   background: linear-gradient(
       180deg,
@@ -418,32 +429,41 @@ a:hover {
       rgba(7, 7, 11, 0.08) 100%
     );
   border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.case:last-child {
+  margin-bottom: 0;
 }
 
 .caseTop {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 12px;
+  gap: 16px;
   flex-wrap: wrap;
+  padding-bottom: 4px;
 }
 
 .caseTitle {
   margin: 0;
-  font-size: 16px;
-  letter-spacing: 0.2px;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
 }
 
 .caseSubtitle {
-  margin: 6px 0 0;
+  margin: 8px 0 0;
   max-width: 80ch;
+  line-height: 1.5;
 }
 
 .caseGrid {
-  margin-top: 12px;
+  margin-top: 16px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 14px;
+  gap: 16px;
+  align-items: start;
 }
 
 .caseText {
@@ -451,17 +471,33 @@ a:hover {
 }
 
 .caseBlock {
-  margin-top: 12px;
-  padding: 12px;
+  margin-top: 0;
+  margin-bottom: 14px;
+  padding: 14px;
   border-radius: 12px;
-  background: rgba(7, 7, 11, 0.12);
+  background: rgba(7, 7, 11, 0.18);
   border: 1px solid rgba(255, 255, 255, 0.08);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.caseBlock:last-child {
+  margin-bottom: 0;
+}
+
+.caseGrid > div {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .caseBlockTitle {
-  font-size: 12px;
-  color: var(--muted);
-  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 10px;
+  letter-spacing: 0.3px;
 }
 
 .list {
@@ -470,14 +506,18 @@ a:hover {
   color: var(--muted);
   display: grid;
   gap: 8px;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 .list strong {
   color: var(--text);
+  font-weight: 600;
 }
 
 .listCompact {
-  gap: 6px;
+  gap: 7px;
+  font-size: 13.5px;
 }
 
 code {
@@ -529,5 +569,14 @@ code {
   }
   .caseGrid {
     grid-template-columns: 1fr;
+  }
+  .case {
+    padding: 16px;
+  }
+  .caseBlock {
+    padding: 12px;
+  }
+  .caseTitle {
+    font-size: 16px;
   }
 }
