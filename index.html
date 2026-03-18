@@ -221,6 +221,70 @@
             </div>
           </div>
         </article>
+
+        <article class="case" aria-label="VETEMENTES">
+          <div class="caseTop">
+            <div>
+              <h3 class="caseTitle">VETEMENTES — Luxury streetwear marketplace (Full‑Stack)</h3>
+              <p class="caseSubtitle muted">
+                Role: <strong>Solo Full‑Stack Developer</strong>. Built a premium storefront UI + checkout flow, backend API, and Docker stack for local development.
+              </p>
+            </div>
+            <a class="btn btnSecondary" href="https://github.com/imtiredwhenitalk/vetementes-website" target="_blank" rel="noreferrer">Open repo</a>
+          </div>
+
+          <div class="caseGrid">
+            <div>
+              <div class="caseBlock">
+                <div class="caseBlockTitle">What I did</div>
+                <ul class="list">
+                  <li><strong>Frontend:</strong> product catalog, product modal (sizes/colors/quantity), cart sidebar, centered layout and mobile responsiveness, checkout (form + order summary).</li>
+                  <li><strong>Animations:</strong> page transitions and premium micro-interactions via Framer Motion.</li>
+                  <li><strong>Backend:</strong> Express + TypeScript API, auth (JWT), validation, security middleware, PostgreSQL integration.</li>
+                  <li><strong>DevOps:</strong> Dockerfiles + <code>docker-compose</code> for Postgres + backend + frontend (nginx) with environment configs.</li>
+                </ul>
+              </div>
+
+              <div class="caseBlock">
+                <div class="caseBlockTitle">Problems & how I solved them</div>
+                <ul class="list listCompact">
+                  <li><strong>Layout looked “off-center” on 1920×1080:</strong> unified section containers and full-width wrappers so the whole UI sits visually centered.</li>
+                  <li><strong>Checkout UX:</strong> reworked layout so the form stays primary and the order summary sits on the right (sticky on desktop only).</li>
+                  <li><strong>DB not always available in dev:</strong> added a safe fallback to a mock DB when PostgreSQL isn’t running.</li>
+                  <li><strong>API hardening:</strong> rate limit + Helmet, CORS config, request validation to keep endpoints predictable.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div>
+              <div class="caseBlock">
+                <div class="caseBlockTitle">Tech stack</div>
+                <div class="badges badgesInline" aria-label="Technologies">
+                  <span class="badge">React 19</span>
+                  <span class="badge">TypeScript</span>
+                  <span class="badge">Vite</span>
+                  <span class="badge">Tailwind CSS v4</span>
+                  <span class="badge">Framer Motion</span>
+                  <span class="badge">Node.js</span>
+                  <span class="badge">Express</span>
+                  <span class="badge">PostgreSQL</span>
+                  <span class="badge">JWT</span>
+                  <span class="badge">Docker Compose</span>
+                  <span class="badge">nginx</span>
+                </div>
+              </div>
+
+              <div class="caseBlock">
+                <div class="caseBlockTitle">Showcase</div>
+                <video class="showcaseVideo" controls preload="metadata" playsinline>
+                  <source src="./assets/2026-03-18%2016-53-09.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+                <p class="small" style="margin: 10px 0 0;">UI flow demo: catalog → product modal → cart → checkout.</p>
+              </div>
+            </div>
+          </div>
+        </article>
       </section>
 
       <section class="card" id="projects" aria-labelledby="projectsHeading">
