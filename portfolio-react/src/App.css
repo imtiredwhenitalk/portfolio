@@ -182,3 +182,44 @@
     border-right-color: var(--border);
   }
 }
+/* Typing effect styles */
+.typing {
+  display: inline-block;
+  white-space: pre;
+  min-width: 2px;
+  position: relative;
+}
+
+/* Blinking '|' cursor for typing effect using a generated ::after element */
+.typing::after {
+  content: '|';
+  display: inline-block;
+  width: 0.7ch;
+  height: 1em;
+  vertical-align: -0.15em;
+  color: var(--accent);
+  animation: blink 1s steps(2, start) infinite;
+  /* slight left offset to hug the end of text better */
+  margin-left: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .typing::after {
+    animation: none !important;
+  }
+}
+
+/* .cursor class uses a real | as text content, so style it the same way */
+.cursor {
+  color: var(--accent);
+  animation: blink 1s steps(2, start) infinite;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}

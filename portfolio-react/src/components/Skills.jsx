@@ -7,8 +7,8 @@ export default function Skills() {
       <div className="shell">
         <Reveal>
           <header className="section-head">
-            <p className="section-label">02 — Stack</p>
-            <h2 id="skills-heading">Tools I reach for</h2>
+            <p className="section-label">Stack i use in my projects</p>
+            <h2 id="skills-heading">Tools I use</h2>
           </header>
         </Reveal>
 

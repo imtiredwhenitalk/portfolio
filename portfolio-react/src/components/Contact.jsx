@@ -9,7 +9,7 @@ export default function Contact() {
       <div className="shell">
         <Reveal>
           <header className="section-head">
-            <p className="section-label">04 — Contact</p>
+            <p className="section-label">Contact me</p>
             <h2 id="contact-heading">Let&apos;s talk</h2>
             <p className="section-desc text-muted">
               Internships, freelance, or just feedback on a repo — reach out on Telegram or GitHub.

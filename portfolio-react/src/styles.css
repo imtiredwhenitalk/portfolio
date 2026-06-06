@@ -771,3 +771,47 @@ main,
   }
 
 }
+
+/* Typing effect styles */
+.typing {
+  display: inline-block;
+  white-space: pre;
+  min-width: 2px;
+  position: relative;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .typing {
+    animation: none !important;
+  }
+  .typing::after {
+    animation: none !important;
+  }
+}
+
+/* Single blinking cursor, always at the end of .typing text.
+   Remove .cursor class/element support, and always use a pseudo-element. */
+.typing::after {
+  content: '';
+  display: inline-block;
+  width: 1ch;
+  height: 1em;
+  vertical-align: -0.15em;
+  background: none;
+  border-right: 2px solid var(--accent);
+  animation: blink 0.6s steps(2, start) infinite; /* бліки швидші */
+}
+
+/* Remove old .cursor support */
+.cursor {
+  display: none !important;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}

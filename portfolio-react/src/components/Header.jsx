@@ -1,6 +1,48 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { nav, site } from '../data/site';
 import { useScrollY } from '../hooks/useScrollY';
+
+function TypingText({ text, speed = 50 }) {
+  const [displayed, setDisplayed] = useState('');
+  const [done, setDone] = useState(false);
+  const intervalRef = useRef(null);
+
+  useEffect(() => {
+    let i = 0;
+    function type() {
+      setDisplayed((prev) => {
+        if (i < text.length) {
+          i++;
+          return text.slice(0, i);
+        } else {
+          setDone(true);
+          clearInterval(intervalRef.current);
+          return prev;
+        }
+      });
+    }
+    intervalRef.current = setInterval(type, speed);
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [text, speed]);
+
+  return (
+    <span>
+      {displayed}
+      <span
+        className="cursor"
+        style={{
+          visibility: done ? 'visible' : (displayed.length % 2 === 0 ? 'visible' : 'hidden'),
+          marginLeft: '1px'
+        }}
+        aria-hidden
+      >
+        |
+      </span>
+    </span>
+  );
+}
 
 export default function Header() {
   const scrollY = useScrollY();
@@ -15,14 +57,14 @@ export default function Header() {
 
     if (!sections.length) return undefined;
 
-    const observer = new IntersectionObserver(
+    const observer = new window.IntersectionObserver(
       (entries) => {
         const visible = entries
           .filter((e) => e.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
         if (visible?.target?.id) setActive(visible.target.id);
       },
-      { rootMargin: '-40% 0px -50% 0px', threshold: [0, 0.25, 0.5] },
+      { rootMargin: '-40% 0px -50% 0px', threshold: [0, 0.25, 0.5] }
     );
 
     sections.forEach((section) => observer.observe(section));
@@ -30,7 +72,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className={`site-header ${compact ? 'is-compact' : ''}`}>
+    <header className={`site-header${compact ? ' is-compact' : ''}`}>
       <div className="shell header-inner">
         <a className="logo" href="#" aria-label="Top of page">
           <img
@@ -39,7 +81,7 @@ export default function Header() {
             alt=""
             width={32}
             height={32}
-            onError={(e) => {
+            onError={e => {
               e.currentTarget.style.display = 'none';
             }}
           />
@@ -50,7 +92,7 @@ export default function Header() {
           {nav.map((item) => (
             <a
               key={item.id}
-              className={`nav-link ${active === item.id ? 'is-active' : ''}`}
+              className={`nav-link${active === item.id ? ' is-active' : ''}`}
               href={`#${item.id}`}
             >
               {item.label}

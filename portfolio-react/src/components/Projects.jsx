@@ -8,7 +8,7 @@ export default function Projects() {
       <div className="shell">
         <Reveal>
           <header className="section-head">
-            <p className="section-label">03 — Work</p>
+            <p className="section-label">My projects</p>
             <h2 id="work-heading">Selected projects</h2>
             <p className="section-desc text-muted">
               Case studies with what shipped, what broke in prod, and how it was fixed.

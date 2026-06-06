@@ -7,7 +7,7 @@ export default function About() {
       <div className="shell">
         <Reveal>
           <header className="section-head">
-            <p className="section-label">01 — About</p>
+            <p className="section-label">About me</p>
             <h2 id="about-heading">How I work</h2>
           </header>
         </Reveal>
