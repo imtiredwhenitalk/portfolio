@@ -15,11 +15,11 @@ export const site = {
 };
 
 export const skills = [
-  { group: 'Languages', items: ['TypeScript', 'JavaScript', 'Python', 'SQL'] },
-  { group: 'Frontend', items: ['React', 'Next.js', 'Vite', 'Tailwind CSS'] },
-  { group: 'Backend', items: ['FastAPI', 'Express', 'PostgreSQL', 'JWT'] },
-  { group: 'Ops', items: ['Docker', 'Nginx', 'Linux', 'GitHub Actions'] },
-  { group: 'Security', items: ['TCP/IP', 'Linux hardening', 'Kali labs', 'CTF practice'] },
+  { group: 'Languages', items: ['TypeScript', 'JavaScript', 'Python', 'SQL', 'HTML', 'CSS',] },
+  { group: 'Frontend', items: ['React', 'Next.js', 'Vite', 'Redux', 'Tailwind CSS', 'Chart.js'] },
+  { group: 'Backend', items: ['FastAPI', 'Node.Js','Next.Js','PostgreSQL', 'SQLite', 'JWT', 'REST API'] },
+  { group: 'Ops', items: ['Docker', 'Nginx', 'Linux', 'GitHub Actions', 'Certbot', 'Cloudflare', 'CI/CD'] },
+  { group: 'Security', items: ['TCP/IP', 'Linux hardening', 'Kali Linux', 'Burp Suite', 'Wireshark', 'CTF practice','JWT Auth', 'HTTPS', 'SSH'] },
 ];
 
 export const nav = [
