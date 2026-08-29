@@ -88,4 +88,91 @@ export const projects = [
     ],
     stack: ['React 19', 'TypeScript', 'Express', 'PostgreSQL', 'Docker', 'Framer Motion'],
   },
+  {
+    id: 'solar-system',
+    title: 'Animated Solar System',
+    subtitle: 'Immersive space landing experience with orbital motion',
+    role: 'Solo frontend developer',
+    tone: 'space',
+    href: 'https://animated-web-v1.vercel.app/',
+    hrefLabel: 'Live demo',
+    highlight: 'A space-themed landing page built to explore motion, depth, and interactive astronomy visuals with a strong visual identity.',
+    blocks: [
+      {
+        title: 'Shipped',
+        bullets: [
+          'Responsive landing page with a cinematic hero, starfield atmosphere, and space UI styling.',
+          'Modular React + TypeScript architecture with a clean component structure.',
+          'Modern front-end stack using Vite, Tailwind, and motion-driven layout patterns.',
+        ],
+      },
+      {
+        title: 'Hard parts',
+        bullets: [
+          'The biggest challenge was the Three.js solar-system logic: planets had to rotate, orbit, and feel natural without looking jittery.',
+          'I had to tune transforms, animation timing, and object scaling so the orbits felt smooth and readable on the page.',
+          'The visual work was not only “pretty” — it required balancing performance, responsiveness, and a clean UX experience.',
+        ],
+      },
+    ],
+    stack: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Three.js', 'Node.js'],
+  },
+  {
+    id: 'python-crm',
+    title: 'Python CRM System',
+    subtitle: 'Client management dashboard for sales workflow',
+    role: 'Solo developer',
+    tone: 'crm',
+    href: 'https://github.com/imtiredwhenitalk',
+    hrefLabel: 'GitHub profile',
+    highlight: 'A practical CRM for managing clients, sales stages, follow-ups, and tasks without overengineering the flow.',
+    blocks: [
+      {
+        title: 'Shipped',
+        bullets: [
+          'Customer and contact management with personal data, status, and follow-up tracking.',
+          'Deal pipeline logic for active, won, and pending work with simple business rules.',
+          'Python-driven workflow with storage and structured UI for easier day-to-day usage.',
+        ],
+      },
+      {
+        title: 'Hard parts',
+        bullets: [
+          'The main issue was making the system practical, not just “technically working”. I focused on workflow clarity and data consistency.',
+          'I had to design status transitions, task handling, and client records so data stayed predictable as the project grew.',
+          'The project taught me how real business logic often matters more than flashy interface features.',
+        ],
+      },
+    ],
+    stack: ['Python', 'SQLite', 'CRM logic', 'Business workflow', 'UI design'],
+  },
+  {
+    id: 'education-open-source',
+    title: 'Education Project',
+    subtitle: 'Open-source study project built for learning and sharing',
+    role: 'Collaborative developer',
+    tone: 'edu',
+    href: 'https://github.com/imtiredwhenitalk/education',
+    hrefLabel: 'Repository',
+    highlight: 'A study-focused web project aimed at educational content, clean presentation, and simple open-source collaboration.',
+    blocks: [
+      {
+        title: 'Shipped',
+        bullets: [
+          'Landing and content sections designed around a learning-first experience.',
+          'Reusable frontend structure so content and components remain easy to extend.',
+          'Open-source vibe: simple, readable, and suitable for educational collaboration and iteration.',
+        ],
+      },
+      {
+        title: 'Hard parts',
+        bullets: [
+          'The challenge was making it useful and polished without creating unnecessary complexity for a learning project.',
+          'I focused on structure, flow, and readability so the app stays clear for students and contributors.',
+          'It was a good exercise in building something that scales conceptually without becoming bloated.',
+        ],
+      },
+    ],
+    stack: ['JavaScript', 'React', 'Open source', 'Frontend', 'Education'],
+  },
 ];

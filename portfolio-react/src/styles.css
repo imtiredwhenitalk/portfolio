@@ -571,6 +571,18 @@ main,
   background: linear-gradient(90deg, #c9a227, #e8e0d0 40%, transparent 75%);
 }
 
+.project-card-accent[data-tone='space'] {
+  background: linear-gradient(90deg, #8c7cff, #4cc9f0 50%, transparent);
+}
+
+.project-card-accent[data-tone='crm'] {
+  background: linear-gradient(90deg, #ff7a59, #ffb454 55%, transparent);
+}
+
+.project-card-accent[data-tone='edu'] {
+  background: linear-gradient(90deg, #2dd4bf, #34d399 52%, transparent);
+}
+
 .project-card-inner {
   padding: clamp(22px, 3vw, 30px);
 }
