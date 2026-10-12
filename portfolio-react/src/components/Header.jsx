@@ -1,48 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { nav, site } from '../data/site';
 import { useScrollY } from '../hooks/useScrollY';
-
-function TypingText({ text, speed = 50 }) {
-  const [displayed, setDisplayed] = useState('');
-  const [done, setDone] = useState(false);
-  const intervalRef = useRef(null);
-
-  useEffect(() => {
-    let i = 0;
-    function type() {
-      setDisplayed((prev) => {
-        if (i < text.length) {
-          i++;
-          return text.slice(0, i);
-        } else {
-          setDone(true);
-          clearInterval(intervalRef.current);
-          return prev;
-        }
-      });
-    }
-    intervalRef.current = setInterval(type, speed);
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, [text, speed]);
-
-  return (
-    <span>
-      {displayed}
-      <span
-        className="cursor"
-        style={{
-          visibility: done ? 'visible' : (displayed.length % 2 === 0 ? 'visible' : 'hidden'),
-          marginLeft: '1px'
-        }}
-        aria-hidden
-      >
-        |
-      </span>
-    </span>
-  );
-}
 
 export default function Header() {
   const scrollY = useScrollY();
@@ -87,7 +45,6 @@ export default function Header() {
           />
           <span className="logo-text">{site.title}</span>
         </a>
-
         <nav className="nav" aria-label="Sections">
           {nav.map((item) => (
             <a
@@ -101,6 +58,7 @@ export default function Header() {
         </nav>
 
         <div className="header-actions">
+          <img src="/image.png" alt="Profile" className="profile-image" />
           <a className="btn btn-ghost" href={site.github} target="_blank" rel="noreferrer">
             GitHub
           </a>

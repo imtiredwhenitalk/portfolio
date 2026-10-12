@@ -113,7 +113,6 @@ export default function Hero() {
         <Reveal className="hero-block">
           <div className="hero-block-inner">
             <div className="hero-eyebrow-wrapper">
-              <span className="eyebrow">Open to internships & freelance</span>
             </div>
 
             <h1 className="hero-title">

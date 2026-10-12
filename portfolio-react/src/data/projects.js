@@ -147,6 +147,64 @@ export const projects = [
     stack: ['Python', 'SQLite', 'CRM logic', 'Business workflow', 'UI design'],
   },
   {
+    id: 'elyra',
+    title: 'Elyra',
+    subtitle: 'Modern digital experience for a growing product',
+    role: 'Solo full-stack developer',
+    tone: 'elyra',
+    href: 'https://github.com/imtiredwhenitalk/Elyra',
+    hrefLabel: 'GitHub profile',
+    highlight: 'A polished product website focused on clear storytelling, responsive layouts, and a consistent visual system.',
+    blocks: [
+      {
+        title: 'Shipped',
+        bullets: [
+          'Responsive product experience with reusable sections and a clear conversion flow.',
+          'Component-based frontend structure that keeps content and UI patterns easy to extend.',
+          'Accessible interactions, mobile-first layouts, and visual details tuned for a premium feel.',
+        ],
+      },
+      {
+        title: 'Hard parts',
+        bullets: [
+          'The challenge was turning a strong visual direction into a layout that stays readable across screen sizes.',
+          'I kept the interface expressive without sacrificing loading performance or straightforward navigation.',
+          'Reusable components made it possible to iterate on the visual language without duplicating page logic.',
+        ],
+      },
+    ],
+    stack: ['React', 'JavaScript', 'Vite', 'Responsive UI', 'UX', 'Rust', 'Tauri'],
+  },
+  {
+    id: 'adaptive-crm',
+    title: 'Adaptive-CRM',
+    subtitle: 'Flexible CRM workspace for client and sales operations',
+    role: 'Solo developer',
+    tone: 'adaptive',
+    href: 'https://github.com/imtiredwhenitalk/Adaptive-CRM',
+    hrefLabel: 'GitHub profile',
+    highlight: 'A CRM concept built around adaptable pipelines, organized client data, and a workflow that can grow with a team.',
+    blocks: [
+      {
+        title: 'Shipped',
+        bullets: [
+          'Client records, contact history, deal stages, and follow-up tasks in one focused workspace.',
+          'Flexible status and pipeline structure for adapting the workflow to different sales processes.',
+          'Clear dashboard patterns that make the next action visible without overwhelming the user.',
+        ],
+      },
+      {
+        title: 'Hard parts',
+        bullets: [
+          'The main challenge was keeping flexible business rules understandable for people using the CRM every day.',
+          'I designed the data flow so client updates, deal progress, and tasks remain consistent as records change.',
+          'The project prioritizes practical workflow decisions over unnecessary features and visual noise.',
+        ],
+      },
+    ],
+    stack: ['React', 'TypeScript', 'REST API', 'PostgreSQL', 'CRM workflow'],
+  },
+  {
     id: 'education-open-source',
     title: 'Education Project',
     subtitle: 'Open-source study project built for learning and sharing',

@@ -205,6 +205,15 @@ main,
   align-items: center;
 }
 
+.profile-image {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  border: 1px solid var(--border-strong);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 /* ——— Buttons ——— */
 .btn {
   display: inline-flex;
@@ -577,6 +586,14 @@ main,
 
 .project-card-accent[data-tone='crm'] {
   background: linear-gradient(90deg, #ff7a59, #ffb454 55%, transparent);
+}
+
+.project-card-accent[data-tone='elyra'] {
+  background: linear-gradient(90deg, #c084fc, #f0abfc 55%, transparent);
+}
+
+.project-card-accent[data-tone='adaptive'] {
+  background: linear-gradient(90deg, #38bdf8, #2dd4bf 55%, transparent);
 }
 
 .project-card-accent[data-tone='edu'] {
